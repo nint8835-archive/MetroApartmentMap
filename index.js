@@ -40,6 +40,6 @@ getApartments().then(apartments => {
   app.use("/node_modules", express.static("node_modules"));
 
   app.listen(3000, () => {
-    console.log("Server listening");
+    console.log("Server listening on port 3000");
   });
 });
