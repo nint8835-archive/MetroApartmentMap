@@ -6,6 +6,8 @@ services:
     restart: always
     networks:
       - web
+    volumes:
+      - ./apartments.json:/usr/src/app/apartments.json
     expose:
       - 3000
     labels:
