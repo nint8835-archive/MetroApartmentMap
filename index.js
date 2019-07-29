@@ -13,13 +13,17 @@ async function getApartments() {
       locationId: LOCATION,
       categoryId: CATEGORY,
       "attributeMap[numberbedrooms_s]": NUMBER_OF_BEDROOMS,
-      "attributeMap[numberparkingspots_s]": NUMBER_OF_PARKING_SPOTS
+      "attributeMap[numberparkingspots_s]": NUMBER_OF_PARKING_SPOTS,
+      adType: "OFFER"
     },
     {
-      minResults: 5
+      minResults: 200
     }
   );
-  return ads;
+  return ads.map(apartment => ({
+    ...apartment,
+    description: apartment.description.split("\n\n").join("<br>")
+  }));
 }
 
 getApartments().then(apartments => {
