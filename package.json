@@ -1,0 +1,26 @@
+{
+  "name": "metroapartmentmap",
+  "version": "1.0.0",
+  "description": "Scrapes Kijiji to create a map of available apartments in the St. John's Metro Area",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nint8835/MetroApartmentMap.git"
+  },
+  "author": "Riley Flynn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nint8835/MetroApartmentMap/issues"
+  },
+  "homepage": "https://github.com/nint8835/MetroApartmentMap#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jquery": "^3.4.1",
+    "kijiji-scraper": "^4.0.6",
+    "leaflet": "^1.5.1"
+  }
+}
