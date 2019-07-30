@@ -1,5 +1,4 @@
 const kijiji = require("kijiji-scraper");
-const express = require("express");
 const fs = require("fs");
 
 const LOCATION = kijiji.locations.NEWFOUNDLAND.ST_JOHNS;

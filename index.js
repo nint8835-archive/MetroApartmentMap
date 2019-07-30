@@ -1,3 +1,4 @@
+const express = require("express");
 const apartments = require("./apartments.json");
 
 const app = express();
