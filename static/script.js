@@ -1,3 +1,46 @@
+let apartments = [];
+let layerGroup = null;
+let map = null;
+
+function getFilterValuesByName(name) {
+  return $(`input[name="${name}"]`)
+    .filter(":checked")
+    .map((index, input) => input.value)
+    .toArray();
+}
+
+function regeneratePins() {
+  const filters = [
+    "furnished",
+    "yard",
+    "balcony",
+    "petsallowed",
+    "hydro",
+    "heat",
+    "water",
+    "cabletv"
+  ];
+  let filteredApartments = apartments;
+  filters.forEach(
+    key =>
+      (filteredApartments = filteredApartments.filter(apartment =>
+        getFilterValuesByName(key).includes(
+          apartment.attributes[key].toString()
+        )
+      ))
+  );
+  if (layerGroup) {
+    layerGroup.clearLayers();
+  }
+  layerGroup = L.layerGroup().addTo(map);
+  filteredApartments.forEach(apartment => {
+    const location = apartment.attributes.location;
+    L.marker([location.latitude, location.longitude])
+      .bindPopup(generatePopup(apartment))
+      .addTo(layerGroup);
+  });
+}
+
 function generatePopup({ attributes, title, description, url }) {
   const billsIncluded = [];
   ["Hydro", "Heat", "Water", "Cable TV", "Internet", "Landline"].forEach(
@@ -30,7 +73,49 @@ function generatePopup({ attributes, title, description, url }) {
 }
 
 $(() => {
-  const map = L.map("leafletContainer", {
+  const filters = [
+    { title: "Furnished", name: "furnished" },
+    { title: "Yard", name: "yard" },
+    { title: "Balcony", name: "balcony" },
+    { title: "Pets allowed", name: "petsallowed" },
+    { title: "Hydro included", name: "hydro" },
+    { title: "Heat included", name: "heat" },
+    { title: "Water included", name: "water" },
+    { title: "Cable TV included", name: "cabletv" },
+    { title: "Internet included", name: "internet" },
+    { title: "Landline included", name: "landline" }
+  ];
+  filters.forEach(filter => {
+    const domElement = $(document.createElement("div"));
+    domElement.html(`
+    <div class="filter-group">
+      ${filter.title}:
+      <div class="filter">
+        <input
+          type="checkbox"
+          name="${filter.name}"
+          id="${filter.name}-yes"
+          value="1"
+          checked
+        />
+        <label for="${filter.name}-yes">Yes</label>
+      </div>
+      <div class="filter">
+        <input 
+          type="checkbox"
+          name="${filter.name}"
+          id="${filter.name}-no"
+          value="0"
+          checked
+        />
+        <label for="${filter.name}-no">No</label>
+      </div>
+    </div>
+    `);
+    $(".apartment-filters").append(domElement);
+  });
+  $("input").on("click", regeneratePins);
+  map = L.map("leafletContainer", {
     center: [47.5615, -52.7126],
     zoom: 13
   });
@@ -41,13 +126,9 @@ $(() => {
 
   $.ajax({
     url: "/apartments",
-    success: apartments => {
-      apartments.forEach(apartment => {
-        const location = apartment.attributes.location;
-        L.marker([location.latitude, location.longitude])
-          .bindPopup(generatePopup(apartment))
-          .addTo(map);
-      });
+    success: apartmentResp => {
+      apartments = apartmentResp;
+      regeneratePins();
     }
   });
 });
