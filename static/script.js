@@ -18,7 +18,9 @@ function regeneratePins() {
     "hydro",
     "heat",
     "water",
-    "cabletv"
+    "cabletv",
+    "internet",
+    "landline"
   ];
   let filteredApartments = apartments;
   filters.forEach(
@@ -122,6 +124,9 @@ $(() => {
   L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
     attribution:
       '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+  L.control.reachability({
+    apiKey: '5b3ce3597851110001cf62482ad8bf205457497daaf12a3b94a255a0'
   }).addTo(map);
 
   $.ajax({
