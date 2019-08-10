@@ -4,8 +4,8 @@ const fs = require("fs");
 const LOCATION = kijiji.locations.NEWFOUNDLAND.ST_JOHNS;
 const CATEGORY = kijiji.categories.REAL_ESTATE.FOR_RENT.LONG_TERM_RENTALS;
 
-const NUMBER_OF_BEDROOMS = [0, 1, 1.5];
-const NUMBER_OF_PARKING_SPOTS = [1, 2, 3];
+const NUMBER_OF_BEDROOMS = [0, 1, 1.5, 2];
+const NUMBER_OF_PARKING_SPOTS = [0, 1, 2, 3];
 
 async function getApartments() {
   const ads = await kijiji.search(
@@ -17,7 +17,7 @@ async function getApartments() {
       adType: "OFFER"
     },
     {
-      minResults: 200
+      minResults: 500
     }
   );
   return ads.map(apartment => ({

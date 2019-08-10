@@ -20,7 +20,9 @@ function regeneratePins() {
     "water",
     "cabletv",
     "internet",
-    "landline"
+    "landline",
+    "numberbedrooms",
+    "numberparkingspots"
   ];
   let filteredApartments = apartments;
   filters.forEach(
@@ -116,6 +118,36 @@ $(() => {
     `);
     $(".apartment-filters").append(domElement);
   });
+  const numericFilters = [
+    { title: "Bedrooms", name: "numberbedrooms", values: [0, 1, 1.5, 2] },
+    { title: "Parking spots", name: "numberparkingspots", values: [0, 1, 2, 3] }
+  ];
+  numericFilters.forEach(filter => {
+    const parentDomElement = $(document.createElement("div"));
+    const domElement = $("<div>", {
+      class: "filter-group",
+      html: filter.title + ":"
+    });
+    parentDomElement.append(domElement);
+    filter.values.forEach(value => {
+      domElement.append(
+        $("<div>", {
+          class: "filter",
+          html: `
+          <input
+            type="checkbox"
+            name="${filter.name}"
+            id="${filter.name}-${value}"
+            value="${value}"
+            checked
+          />
+          <label for="${filter.name}-${value}">${value}</label>
+          `
+        })
+      );
+    });
+    $(".apartment-filters").append(parentDomElement);
+  });
   $("input").on("click", regeneratePins);
   map = L.map("leafletContainer", {
     center: [47.5615, -52.7126],
@@ -125,9 +157,11 @@ $(() => {
     attribution:
       '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
-  L.control.reachability({
-    apiKey: '5b3ce3597851110001cf62482ad8bf205457497daaf12a3b94a255a0'
-  }).addTo(map);
+  L.control
+    .reachability({
+      apiKey: "5b3ce3597851110001cf62482ad8bf205457497daaf12a3b94a255a0"
+    })
+    .addTo(map);
 
   $.ajax({
     url: "/apartments",
