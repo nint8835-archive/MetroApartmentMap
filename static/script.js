@@ -27,7 +27,7 @@ function regeneratePins() {
     key =>
       (filteredApartments = filteredApartments.filter(apartment =>
         getFilterValuesByName(key).includes(
-          apartment.attributes[key].toString()
+          (apartment.attributes[key] || 0).toString()
         )
       ))
   );

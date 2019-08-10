@@ -2,7 +2,7 @@ const kijiji = require("kijiji-scraper");
 const fs = require("fs");
 
 const LOCATION = kijiji.locations.NEWFOUNDLAND.ST_JOHNS;
-const CATEGORY = kijiji.categories.REAL_ESTATE.APARTMENTS_AND_CONDOS_FOR_RENT;
+const CATEGORY = kijiji.categories.REAL_ESTATE.FOR_RENT.LONG_TERM_RENTALS;
 
 const NUMBER_OF_BEDROOMS = [0, 1, 1.5];
 const NUMBER_OF_PARKING_SPOTS = [1, 2, 3];
