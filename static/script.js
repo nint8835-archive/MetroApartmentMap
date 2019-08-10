@@ -1,6 +1,13 @@
 let apartments = [];
 let layerGroup = null;
 let map = null;
+let icons = [];
+const iconIndexes = {
+  0: 0,
+  1: 1,
+  1.5: 2,
+  2: 3
+};
 
 function getFilterValuesByName(name) {
   return $(`input[name="${name}"]`)
@@ -39,7 +46,9 @@ function regeneratePins() {
   layerGroup = L.layerGroup().addTo(map);
   filteredApartments.forEach(apartment => {
     const location = apartment.attributes.location;
-    L.marker([location.latitude, location.longitude])
+    L.marker([location.latitude, location.longitude], {
+      icon: icons[iconIndexes[apartment.attributes.numberbedrooms || 0]]
+    })
       .bindPopup(generatePopup(apartment))
       .addTo(layerGroup);
   });
@@ -77,6 +86,26 @@ function generatePopup({ attributes, title, description, url }) {
 }
 
 $(() => {
+  const iconUrls = [
+    "https://rawcdn.githack.com/pointhi/leaflet-color-markers/575461f7806e2d147a82fbc159aba5e659fbeb4e/img/marker-icon-2x-blue.png",
+    "https://rawcdn.githack.com/pointhi/leaflet-color-markers/575461f7806e2d147a82fbc159aba5e659fbeb4e/img/marker-icon-2x-violet.png",
+    "https://rawcdn.githack.com/pointhi/leaflet-color-markers/575461f7806e2d147a82fbc159aba5e659fbeb4e/img/marker-icon-2x-green.png",
+    "https://rawcdn.githack.com/pointhi/leaflet-color-markers/575461f7806e2d147a82fbc159aba5e659fbeb4e/img/marker-icon-2x-red.png"
+  ];
+  iconUrls.forEach(url =>
+    icons.push(
+      new L.Icon({
+        iconUrl: url,
+        shadowUrl:
+          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+      })
+    )
+  );
+
   const filters = [
     { title: "Furnished", name: "furnished" },
     { title: "Yard", name: "yard" },
