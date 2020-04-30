@@ -19,7 +19,7 @@
   "homepage": "https://github.com/nint8835/MetroApartmentMap#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "kijiji-scraper": "^5.0.0",
     "leaflet": "^1.5.1"
   }
